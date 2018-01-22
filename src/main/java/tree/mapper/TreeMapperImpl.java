@@ -6,20 +6,18 @@ import static java.util.stream.Collectors.toList;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,31 +72,21 @@ public class TreeMapperImpl implements TreeMapper {
 
 	@Override
 	public String findReviewerRoot(Map<String, ReviewNode<String>> reviewList) {
+
+		Set<String> reviewers = new HashSet<>();
 		
-		/*
-		 * Set<String> reviewers = reviewList.keySet(); Set<String> reviewees =
-		 * new HashSet<>(); reviewList.forEach((k, v) -> {
-		 * reviewees.addAll(v.getReviewees()); });
-		 * reviewers.removeAll(reviewees); return
-		 * reviewers.iterator().next().trim();
-		 */
+		Set<String> reviewees = new HashSet<>();
+		
+		reviewers.addAll(reviewList.keySet());
+		
+		reviewList.forEach((k, v) -> {
+			reviewees.addAll(v.getReviewees());
+		});
+		
+		reviewers.removeAll(reviewees);
+		
+		return reviewers.iterator().next().trim();
 
-		String result = new String();
-		int foundCount = 0;
-
-		for (String key : reviewList.keySet()) {
-			for (String key2 : reviewList.keySet()) {
-				if (reviewList.get(key2).getReviewees().contains(key))
-					foundCount++;
-			}
-
-			if (foundCount == 0)
-				result = key;
-
-			foundCount = 0;
-		}
-
-		return result;
 	}
 
 	@Override
