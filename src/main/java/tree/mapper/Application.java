@@ -29,10 +29,13 @@ public class Application implements CommandLineRunner {
 	 }
 	 
 	 private void treeWalk(String fileName) {
+		 
 		 List<String> fileDataList = treeMapper.readFile(fileName);
-		 Map<String, ReviewNode<String>> reviewList = treeMapper.prepareReviewTreeList(fileDataList);
-System.out.println("findReviewerRoot(reviewList)="+treeMapper.findReviewerRoot(reviewList));		 
+		
+		 Map<String, ReviewNode<String>> reviewList = treeMapper.prepareReviewTreeList(fileDataList);	 
+		
 		 System.out.println(treeMapper.printReviewList(reviewList, treeMapper.findReviewerRoot(reviewList), TOP_LEVEL));
+	 
 	 }
 
 }
